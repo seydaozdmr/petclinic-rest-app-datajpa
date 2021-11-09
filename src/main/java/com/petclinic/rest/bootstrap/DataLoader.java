@@ -78,6 +78,7 @@ public class DataLoader implements CommandLineRunner {
 
         Vet vet1=new Vet(1L,"Hasan","Tarık",null);
         vet1.addSpeciality(speciality);
+        specialityService.save(specialityMapper.toDTO(speciality));
         vetService.save(vetMapper.toDTO(vet1));
 
 
