@@ -2,10 +2,9 @@ package com.petclinic.rest.model;
 
 import com.fasterxml.jackson.databind.ser.Serializers;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Speciality implements BaseEntity {
@@ -14,6 +13,9 @@ public class Speciality implements BaseEntity {
     private Long id;
 
     private String description;
+
+    @ManyToMany(mappedBy = "specialities")
+    private List<Vet> vet=new ArrayList<>();
 
     public Speciality(Long id, String description) {
         this.id = id;
@@ -37,5 +39,13 @@ public class Speciality implements BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Vet> getVet() {
+        return vet;
+    }
+
+    public void setVet(List<Vet> vet) {
+        this.vet = vet;
     }
 }
