@@ -1,9 +1,11 @@
 package com.petclinic.rest.controller;
 
 import com.petclinic.rest.dto.VetDto;
-import com.petclinic.rest.model.Vet;
+import com.petclinic.rest.service.SpecialityService;
 import com.petclinic.rest.service.VetService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -47,4 +49,5 @@ public class VetController implements CommonController<VetDto>{
     public void delete(VetDto elem) {
         vetService.delete(elem);
     }
+
 }

@@ -36,5 +36,6 @@ public class Vet extends Person{
 
     public void addSpeciality(Speciality speciality){
         this.specialities.add(speciality);
+        speciality.getVet().add(this);
     }
 }
