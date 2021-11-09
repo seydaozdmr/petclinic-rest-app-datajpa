@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Service
-@Profile("map")
 public abstract class AbstractMapService<T extends BaseEntity,DTO extends BaseDto,ID extends Long> {
     protected Map<Long,T> myMap=new HashMap<>();
     protected final BasePageMapper<T,DTO> mapper;

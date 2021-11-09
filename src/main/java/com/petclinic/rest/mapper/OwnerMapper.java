@@ -8,4 +8,6 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel="spring")
 public interface OwnerMapper extends BasePageMapper<Owner,OwnerDto>{
 
+
+
 }

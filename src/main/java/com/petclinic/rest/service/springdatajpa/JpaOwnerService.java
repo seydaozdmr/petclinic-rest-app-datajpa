@@ -9,12 +9,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
 @Profile("springdatajpa")
-public class JpaOwnerService extends CommonService<Owner, OwnerDto,Long> implements OwnerService {
+public class JpaOwnerService extends AbstractCommonService<Owner, OwnerDto,Long> implements OwnerService {
     private final OwnerRepository ownerRepository;
 
     public JpaOwnerService(OwnerRepository ownerRepository, OwnerMapper mapper) {

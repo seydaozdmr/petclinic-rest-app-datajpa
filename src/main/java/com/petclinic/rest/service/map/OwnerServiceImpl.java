@@ -2,8 +2,6 @@ package com.petclinic.rest.service.map;
 
 import com.petclinic.rest.dto.OwnerDto;
 import com.petclinic.rest.mapper.OwnerMapper;
-import com.petclinic.rest.mapper.OwnerMapperImpl;
-import com.petclinic.rest.mapper.PersonMapper;
 import com.petclinic.rest.model.Owner;
 import com.petclinic.rest.service.OwnerService;
 import org.springframework.context.annotation.Profile;

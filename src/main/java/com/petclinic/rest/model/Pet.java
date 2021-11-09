@@ -14,14 +14,11 @@ public class Pet implements BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-
 
     @ManyToOne
     @JoinColumn(name = "type_id")
     private PetType petType;
-
 
     @ManyToOne
     @JoinColumn(name="owner_id")
