@@ -11,14 +11,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-@Service
-@Profile("springdatajpa")
-public abstract class CommonService<T extends BaseEntity,DTO extends BaseDto,ID extends Long> {
+public abstract class AbstractCommonService<T extends BaseEntity,DTO extends BaseDto,ID extends Long> {
     protected final GenericRepository<T> genericRepository;
     protected final BasePageMapper<T, DTO> mapper;
 
 
-    public CommonService(GenericRepository<T> genericRepository, BasePageMapper<T, DTO> mapper) {
+    public AbstractCommonService(GenericRepository<T> genericRepository, BasePageMapper<T, DTO> mapper) {
         this.genericRepository = genericRepository;
         this.mapper = mapper;
     }
