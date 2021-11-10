@@ -1,6 +1,7 @@
 package com.petclinic.rest.service.springdatajpa;
 
 import com.petclinic.rest.dto.BaseDto;
+import com.petclinic.rest.exceptions.NoSuchAElementException;
 import com.petclinic.rest.mapper.BasePageMapper;
 import com.petclinic.rest.model.BaseEntity;
 import com.petclinic.rest.repository.GenericRepository;
@@ -8,7 +9,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public abstract class AbstractCommonService<T extends BaseEntity,DTO extends BaseDto,ID extends Long> {
@@ -27,7 +27,9 @@ public abstract class AbstractCommonService<T extends BaseEntity,DTO extends Bas
     }
 
     public DTO findById(ID id){
-        return genericRepository.findById(id).map(mapper::toDTO).orElseThrow(()-> new NoSuchElementException(id+" numaralı eleman bulunamamıştır"));
+        return genericRepository.findById(id)
+                .map(mapper::toDTO)
+                .orElseThrow(()-> new NoSuchAElementException(id+" numaralı eleman bulunamamıştır"));
     }
 
     public DTO save(DTO elem){
@@ -38,7 +40,7 @@ public abstract class AbstractCommonService<T extends BaseEntity,DTO extends Bas
         return genericRepository.findById(id).map(e->{
             e=mapper.toSource(elem);
             return mapper.toDTO(genericRepository.save(e));
-        }).orElseThrow(()->new NoSuchElementException("eleman bulunamadı"));
+        }).orElseThrow(()->new NoSuchAElementException("eleman bulunamadı"));
     }
 
     public void deleteById(ID id){
