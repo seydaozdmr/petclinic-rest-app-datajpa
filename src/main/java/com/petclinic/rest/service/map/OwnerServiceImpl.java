@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @Profile("map")
@@ -93,6 +94,11 @@ public class OwnerServiceImpl extends AbstractMapService<Owner,OwnerDto,Long> im
 
     @Override
     public List<OwnerDto> findAllByLastNameLike(String lastName) {
-        return null;
+        return myMap.values().stream()
+                .filter(elem->
+                        elem.getLastName()
+                       .equals(lastName))
+                .map(mapper::toDTO)
+                .collect(Collectors.toList());
     }
 }
