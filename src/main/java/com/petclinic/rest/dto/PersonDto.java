@@ -8,6 +8,15 @@ public class PersonDto implements BaseDto{
     public String name;
     public String lastName;
 
+    public PersonDto() {
+    }
+
+    public PersonDto(Long id, String name, String lastName) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+    }
+
     @Override
     public Long getId() {
         return this.id;

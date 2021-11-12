@@ -12,6 +12,24 @@ public class OwnerDto extends PersonDto implements BaseDto {
     public String telephone;
     public List<Pet> pets;
 
+    public OwnerDto() {
+    }
+
+    public OwnerDto(String address, String city, String telephone, List<Pet> pets) {
+        this.address = address;
+        this.city = city;
+        this.telephone = telephone;
+        this.pets = pets;
+    }
+
+    public OwnerDto(Long id, String name, String lastName, String address, String city, String telephone, List<Pet> pets) {
+        super(id, name, lastName);
+        this.address = address;
+        this.city = city;
+        this.telephone = telephone;
+        this.pets = pets;
+    }
+
     @Override
     public Long getId() {
         return this.id;

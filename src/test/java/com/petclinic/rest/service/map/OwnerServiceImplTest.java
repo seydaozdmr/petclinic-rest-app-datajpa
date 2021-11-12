@@ -103,4 +103,36 @@ class OwnerServiceImplTest {
 
         assertEquals(1,ownerDtos.size());
     }
+
+    @Test
+    void testFindAll() {
+    }
+
+    @Test
+    void testFindById() {
+    }
+
+    @Test
+    void save() {
+    }
+
+    @Test
+    void testUpdate() {
+    }
+
+    @Test
+    void testDeleteById() {
+    }
+
+    @Test
+    void testDelete() {
+    }
+
+    @Test
+    void testFindByLastName() {
+    }
+
+    @Test
+    void testFindAllByLastNameLike() {
+    }
 }
