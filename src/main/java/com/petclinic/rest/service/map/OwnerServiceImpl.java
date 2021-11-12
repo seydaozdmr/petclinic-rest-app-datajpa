@@ -1,6 +1,7 @@
 package com.petclinic.rest.service.map;
 
 import com.petclinic.rest.dto.OwnerDto;
+import com.petclinic.rest.exceptions.NoSuchAElementException;
 import com.petclinic.rest.mapper.OwnerMapper;
 import com.petclinic.rest.mapper.PetMapper;
 import com.petclinic.rest.mapper.PetTypeMapper;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Profile("map")
@@ -81,10 +83,12 @@ public class OwnerServiceImpl extends AbstractMapService<Owner,OwnerDto,Long> im
 
     @Override
     public OwnerDto findByLastName(String lastName) {
-        return null;
-//        return myMap.values()
-//                .stream()
-//                .filter(elem->elem.getLastName().equals(lastName)).findFirst().map(mapper::toDTO).get();
+        return myMap.values()
+                .stream()
+                .filter(elem->elem
+                        .getLastName()
+                        .equals(lastName))
+                .findFirst().map(mapper::toDTO).orElseThrow(()->new NoSuchAElementException("Bu soyisminde eleman bulunamadı"));
     }
 
     @Override
