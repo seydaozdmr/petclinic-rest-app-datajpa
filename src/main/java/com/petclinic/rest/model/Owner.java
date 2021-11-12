@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Owner extends Person{
@@ -77,6 +74,19 @@ public class Owner extends Person{
 
     public boolean addPet(Pet pet){
         return this.pets.add(pet);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Owner owner = (Owner) o;
+        return Objects.equals(address, owner.address) && Objects.equals(city, owner.city) && Objects.equals(telephone, owner.telephone) && Objects.equals(pets, owner.pets);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(address, city, telephone, pets);
     }
 
     @Override
