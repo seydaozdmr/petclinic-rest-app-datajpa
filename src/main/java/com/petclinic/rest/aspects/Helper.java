@@ -27,8 +27,8 @@ public class Helper {
         }
     }
 
-//    @Before("within(com.petclinic.rest.service..*)")
-//    public void applicationStart() {
-//        System.out.println("your application started");
-//    }
+    @Before("within(com.petclinic.rest.service..*)")
+    public void applicationStart() {
+        System.out.println("your application started");
+    }
 }
