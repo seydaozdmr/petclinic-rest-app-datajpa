@@ -54,7 +54,7 @@ public abstract class AbstractMapService<T extends BaseEntity,DTO extends BaseDt
     }
 
     void delete(DTO t){
-        myMap.entrySet().removeIf(e->e.equals(mapper.toSource(t)));
+        myMap.values().removeIf(e->e.equals(mapper.toSource(t)));
     }
 
     private Long generateId(){
