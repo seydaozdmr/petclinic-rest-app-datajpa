@@ -38,7 +38,20 @@ class OwnerServiceImplTest {
     }
 
     @Test
-    void save() {
+    void saveExistingId() {
+        OwnerDto ownerDto=new OwnerDto();
+        ownerDto.setId(1L);
+        OwnerDto savedDto=ownerService.save(ownerDto);
+
+        assertEquals(1L,savedDto.getId());
+    }
+
+    @Test
+    void saveNoId(){
+        OwnerDto ownerDto=new OwnerDto();
+        OwnerDto savedDto=ownerService.save(ownerDto);
+        assertNotNull(savedDto);
+        assertNotNull(savedDto.getId());
     }
 
     @Test
@@ -47,10 +60,16 @@ class OwnerServiceImplTest {
 
     @Test
     void deleteById() {
+        ownerService.deleteById(ownerService.findById(1L).getId());
+
+
     }
 
     @Test
     void delete() {
+        ownerService.delete(ownerService.findById(1L));
+
+        assertEquals(0,ownerService.findAll().size());
     }
 
     @Test
