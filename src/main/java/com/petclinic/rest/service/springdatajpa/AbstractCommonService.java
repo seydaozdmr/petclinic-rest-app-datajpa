@@ -23,10 +23,16 @@ public abstract class AbstractCommonService<T extends BaseEntity,DTO extends Bas
 
     public List<DTO> findAll(){
         System.out.println("data jpa is running");
-        return genericRepository.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
+        return genericRepository
+                .findAll()
+                .stream()
+                .map(mapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     public DTO findById(ID id){
+        //return mapper.toDTO(genericRepository.findById(id).orElseThrow(()->new NoSuchAElementException(id+" numaralı eleman bulunamadı")));
+        //return mapper.toDTO(genericRepository.findById(id).get());
         return genericRepository.findById(id)
                 .map(mapper::toDTO)
                 .orElseThrow(()-> new NoSuchAElementException(id+" numaralı eleman bulunamamıştır"));
