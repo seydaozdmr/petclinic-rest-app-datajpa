@@ -32,10 +32,10 @@ public abstract class AbstractCommonService<T extends BaseEntity,DTO extends Bas
 
     public DTO findById(ID id){
         //return mapper.toDTO(genericRepository.findById(id).orElseThrow(()->new NoSuchAElementException(id+" numaralı eleman bulunamadı")));
-        //return mapper.toDTO(genericRepository.findById(id).get());
-        return genericRepository.findById(id)
-                .map(mapper::toDTO)
-                .orElseThrow(()-> new NoSuchAElementException(id+" numaralı eleman bulunamamıştır"));
+        return mapper.toDTO(genericRepository.findById(id).get());
+//        return genericRepository.findById(id)
+//                .map(mapper::toDTO)
+//                .orElseThrow(()-> new NoSuchAElementException(id+" numaralı eleman bulunamamıştır"));
     }
 
     public DTO save(DTO elem){

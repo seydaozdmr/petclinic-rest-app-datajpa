@@ -39,8 +39,7 @@ class JpaOwnerServiceTest {
     @BeforeEach
     public void setUp() {
         ownerDto=new OwnerDto(1L,"seyda","Özdemir","asd","asdsa","asdasd",null);
-        ownerMapper=new OwnerMapperImpl();
-        owner=ownerMapper.toSource(ownerDto);
+        owner=new Owner(1L,"seyda","Özdemir","asd","asdsa","asdasd",null);
     }
 
     @Test
@@ -67,21 +66,20 @@ class JpaOwnerServiceTest {
 
     @Test
     public void findById(){
-        //when(ownerRepository.findById(anyLong())).thenReturn(Optional.of(owner));
-
         when(ownerRepository.findById(anyLong())).thenReturn(Optional.of(owner));
         when(ownerMapper.toDTO(owner)).thenReturn(ownerDto);
-        OwnerDto ownerDto=service.findById(1L);
+        OwnerDto dto=service.findById(1L);
 
-
-        assertNotNull(ownerDto);
+        assertNotNull(dto);
 
     }
 
+
     @Test
     public void save(){
-        when(service.save(any())).thenReturn(ownerDto);
-        //when(ownerRepository.save(any())).thenReturn(owner);
+        when(ownerRepository.save(owner)).thenReturn(owner);
+        when(ownerMapper.toSource(ownerDto)).thenReturn(owner);
+        when(ownerMapper.toDTO(owner)).thenReturn(ownerDto);
         OwnerDto savedOwner=service.save(ownerDto);
 
         assertNotNull(savedOwner);

@@ -14,10 +14,11 @@ import java.util.stream.Collectors;
 @Service
 @Profile("springdatajpa")
 public class JpaOwnerService extends AbstractCommonService<Owner, OwnerDto,Long> implements OwnerService {
-    public final OwnerRepository ownerRepository;
+    private final OwnerRepository ownerRepository;
 
-    public JpaOwnerService(OwnerRepository ownerRepository, OwnerMapper mapper) {
-        super(ownerRepository, mapper);
+
+    public JpaOwnerService(OwnerRepository ownerRepository, OwnerMapper ownerMapper) {
+        super(ownerRepository, ownerMapper);
         this.ownerRepository = ownerRepository;
     }
 
