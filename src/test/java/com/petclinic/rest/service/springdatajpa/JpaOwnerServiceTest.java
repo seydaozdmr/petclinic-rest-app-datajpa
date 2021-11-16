@@ -45,7 +45,8 @@ class JpaOwnerServiceTest {
     @Test
     public void findByLastName() {
 
-        when(service.findByLastName(any())).thenReturn(ownerDto);
+        when(ownerRepository.findByLastName(any())).thenReturn(owner);
+        when(ownerMapper.toDTO(owner)).thenReturn(ownerDto);
 
         OwnerDto ownerDto=service.findByLastName("Özdemir");
 
@@ -90,5 +91,14 @@ class JpaOwnerServiceTest {
 
     @Test
     void findAllByLastNameLike() {
+        List<Owner> list=new ArrayList<>();
+        list.add(new Owner(1L,"seyda","özdemir","asd","asdsa","asdasd",null));
+        list.add(new Owner(2L,"seyda","özdemir","asd","asdsa","asdasd",null));
+
+        when(ownerRepository.findAllByLastNameLike(any())).thenReturn(list);
+
+        List<OwnerDto> result=service.findAllByLastNameLike("özdemir");
+
+        assertEquals(2,result.size());
     }
 }

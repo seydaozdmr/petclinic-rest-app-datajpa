@@ -40,6 +40,9 @@ public class JpaOwnerService extends AbstractCommonService<Owner, OwnerDto,Long>
 
     @Override
     public List<OwnerDto> findAllByLastNameLike(String lastName) {
-        return ownerRepository.findAllByLastNameLike(lastName).stream().map(mapper::toDTO).collect(Collectors.toList());
+        return ownerRepository.findAllByLastNameLike(lastName)
+                .stream()
+                .map(mapper::toDTO)
+                .collect(Collectors.toList());
     }
 }
