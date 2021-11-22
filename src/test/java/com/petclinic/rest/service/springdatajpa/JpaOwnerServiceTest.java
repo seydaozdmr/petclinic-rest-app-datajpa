@@ -101,4 +101,17 @@ class JpaOwnerServiceTest {
 
         assertEquals(2,result.size());
     }
+
+    @Test
+    void delete(){
+        service.delete(ownerDto);
+        verify(ownerRepository,times(1)).delete(any());
+    }
+
+    @Test
+    void deleteById(){
+        service.deleteById(1L);
+        verify(ownerRepository).deleteById(anyLong());
+    }
+
 }
