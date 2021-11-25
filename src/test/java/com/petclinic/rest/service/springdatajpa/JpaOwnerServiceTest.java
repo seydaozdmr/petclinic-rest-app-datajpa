@@ -1,10 +1,12 @@
 package com.petclinic.rest.service.springdatajpa;
 
 import com.petclinic.rest.dto.OwnerDto;
+import com.petclinic.rest.exceptions.NoSuchAElementException;
 import com.petclinic.rest.mapper.OwnerMapper;
 import com.petclinic.rest.mapper.OwnerMapperImpl;
 import com.petclinic.rest.model.Owner;
 import com.petclinic.rest.repository.OwnerRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -112,6 +114,15 @@ class JpaOwnerServiceTest {
     void deleteById(){
         service.deleteById(1L);
         verify(ownerRepository).deleteById(anyLong());
+    }
+
+    @Test
+    public void getOwnerByIdTestNotFound(){
+        when(ownerRepository.findById(anyLong())).thenReturn(Optional.empty());
+        //when(ownerMapper.toDTO(owner)).thenReturn(ownerDto);
+        Assertions.assertThrows(NoSuchAElementException.class, () -> {
+            service.findById(3L);
+        });
     }
 
 }
