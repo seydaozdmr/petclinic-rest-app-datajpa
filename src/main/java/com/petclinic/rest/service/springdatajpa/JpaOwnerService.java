@@ -16,22 +16,11 @@ import java.util.stream.Collectors;
 public class JpaOwnerService extends AbstractCommonService<Owner, OwnerDto,Long> implements OwnerService {
     private final OwnerRepository ownerRepository;
 
-
     public JpaOwnerService(OwnerRepository ownerRepository, OwnerMapper ownerMapper) {
         super(ownerRepository, ownerMapper);
         this.ownerRepository = ownerRepository;
     }
 
-    @Override
-    public OwnerDto findById(Long aLong) {
-        //System.out.println("find by id çağrıldı with :"+this.ownerRepository+" "+this.mapper);
-        return super.findById(aLong);
-    }
-
-    @Override
-    public List<OwnerDto> findAll() {
-        return super.findAll();
-    }
 
     @Override
     public OwnerDto findByLastName(String lastName) {
