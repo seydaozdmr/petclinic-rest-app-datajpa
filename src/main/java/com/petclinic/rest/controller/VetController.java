@@ -1,12 +1,11 @@
 package com.petclinic.rest.controller;
 
 import com.petclinic.rest.dto.VetDto;
+import com.petclinic.rest.exceptions.NoSuchAElementException;
 import com.petclinic.rest.service.SpecialityService;
 import com.petclinic.rest.service.VetService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
