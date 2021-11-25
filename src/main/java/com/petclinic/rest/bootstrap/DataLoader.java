@@ -49,7 +49,7 @@ public class DataLoader implements CommandLineRunner {
         petTypeService.save(petTypeMapper.toDTO(petType2));
 
         Owner owner=new Owner(1L,"Seyda","Özdemir","Burdur","Burdur","555",null);
-        Owner owner1=new Owner(2L,"Ali","Yılmaz","Antalya","Antalya","222",null );
+        Owner owner1=new Owner(2L,"Ali","Yılmaz","Antalya",null,"222",null );
         System.out.println(ownerService.save(ownerMapper.toDTO(owner)));
         System.out.println(ownerService.save(ownerMapper.toDTO(owner1)));
 

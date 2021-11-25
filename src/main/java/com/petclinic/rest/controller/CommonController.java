@@ -4,6 +4,7 @@ import com.petclinic.rest.dto.BaseDto;
 import com.petclinic.rest.model.BaseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 //@RestController
@@ -15,7 +16,7 @@ public interface CommonController <T extends BaseDto> {
     T find(@PathVariable  Long id);
 
     @PostMapping("")
-    T save(@RequestBody T elem);
+    T save(@Valid @RequestBody T elem);
 
     @PostMapping("/{id}")
     T update(@PathVariable Long id,@RequestBody T elem);

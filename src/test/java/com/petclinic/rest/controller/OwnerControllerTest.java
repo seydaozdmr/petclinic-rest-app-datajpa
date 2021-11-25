@@ -1,10 +1,12 @@
 package com.petclinic.rest.controller;
 
 import com.petclinic.rest.dto.OwnerDto;
+import com.petclinic.rest.exceptions.CustomGlobalExceptionHandler;
 import com.petclinic.rest.exceptions.NoSuchAElementException;
 import com.petclinic.rest.exceptions.NoSuchElementAdvice;
 import com.petclinic.rest.service.OwnerService;
 import org.hamcrest.Matchers;
+import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,11 +20,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 
+import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -52,6 +57,7 @@ class OwnerControllerTest {
         mockMvc= MockMvcBuilders
                 .standaloneSetup(ownerController)
                 .setControllerAdvice(new NoSuchElementAdvice())
+                .setControllerAdvice(new CustomGlobalExceptionHandler())
                 .build();
     }
 
@@ -91,6 +97,35 @@ class OwnerControllerTest {
 
         mockMvc.perform(get("/owners/1"))
                 .andExpect(status().isNotFound());
+    }
+    @Test
+    void getOwnerByIdNumberFormatException() throws Exception {
+
+        mockMvc.perform(get("/owners/adsad"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenPostRequestToUsersAndValidUser_thenCorrectResponse() throws Exception {
+        //MediaType textPlainUtf8 = new MediaType(MediaType.TEXT_PLAIN, Charset.forName("UTF-8"));
+        String ownerDto = "{\"name\": \"bob\", \"lastName\" : \"Yıldırım\",\"address\" : \"Yıldırım\",\"city\" : \"Yıldırım\",\"telephone\" : \"Yıldırım\"}";
+        mockMvc.perform(MockMvcRequestBuilders.post("/owners")
+                .content(ownerDto)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void whenPostRequestToUsersAndInValidUser_thenCorrectResponse() throws Exception {
+        String ownerDto = "{\"name\": \"bob\", \"lastName\" : \"Yıldırım\",\"address\" : \"\",\"city\" : \"Yıldırım\",\"telephone\" : \"Yıldırım\"}";
+        mockMvc.perform(MockMvcRequestBuilders.post("/owners")
+                .content(ownerDto)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.status", Is.is(400)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errors", hasItem("adres boş")))
+                .andExpect(MockMvcResultMatchers.content()
+                        .contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test

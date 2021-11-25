@@ -3,12 +3,16 @@ package com.petclinic.rest.controller;
 import com.petclinic.rest.dto.OwnerDto;
 import com.petclinic.rest.model.Owner;
 import com.petclinic.rest.service.OwnerService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/owners")
@@ -31,7 +35,7 @@ public class OwnerController implements CommonController<OwnerDto>{
     }
 
     @Override
-    public OwnerDto save(OwnerDto elem) {
+    public OwnerDto save(@Valid OwnerDto elem) {
         return ownerService.save(elem);
     }
 
@@ -49,5 +53,17 @@ public class OwnerController implements CommonController<OwnerDto>{
     public void delete(OwnerDto elem) {
         ownerService.delete(elem);
     }
+
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+//        Map<String, String> errors = new HashMap<>();
+//        ex.getBindingResult().getAllErrors().forEach((error) -> {
+//            String fieldName = ((FieldError) error).getField();
+//            String errorMessage = error.getDefaultMessage();
+//            errors.put(fieldName, errorMessage);
+//        });
+//        return errors;
+//    }
 
 }

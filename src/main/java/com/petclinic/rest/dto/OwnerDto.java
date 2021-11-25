@@ -3,12 +3,20 @@ package com.petclinic.rest.dto;
 
 import com.petclinic.rest.model.Pet;
 
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
 public class OwnerDto extends PersonDto implements BaseDto {
+
+    @NotBlank(message = "adres boş")
     public String address;
+    @NotEmpty
     public String city;
+    @NotNull
     public String telephone;
     public List<Pet> pets;
 
@@ -24,6 +32,14 @@ public class OwnerDto extends PersonDto implements BaseDto {
 
     public OwnerDto(Long id, String name, String lastName, String address, String city, String telephone, List<Pet> pets) {
         super(id, name, lastName);
+        this.address = address;
+        this.city = city;
+        this.telephone = telephone;
+        this.pets = pets;
+    }
+
+    public OwnerDto(String name, String lastName, String address, String city, String telephone, List<Pet> pets) {
+        super(name, lastName);
         this.address = address;
         this.city = city;
         this.telephone = telephone;
