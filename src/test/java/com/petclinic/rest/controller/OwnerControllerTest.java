@@ -1,9 +1,12 @@
 package com.petclinic.rest.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.petclinic.rest.dto.OwnerDto;
 import com.petclinic.rest.exceptions.CustomGlobalExceptionHandler;
 import com.petclinic.rest.exceptions.NoSuchAElementException;
 import com.petclinic.rest.exceptions.NoSuchElementAdvice;
+import com.petclinic.rest.model.Owner;
 import com.petclinic.rest.service.OwnerService;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
@@ -13,8 +16,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -26,8 +31,8 @@ import java.util.List;
 
 
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -44,7 +49,11 @@ class OwnerControllerTest {
     @InjectMocks
     OwnerController ownerController;
 
+    ObjectMapper objectMapper;
+
     List<OwnerDto> ownerDtos;
+
+    OwnerDto ownerDto;
 
     MockMvc mockMvc;
 
@@ -54,6 +63,9 @@ class OwnerControllerTest {
         ownerDtos.add(new OwnerDto(1L,"seyda","özdemir","adsad","asdasd","asdasd",null));
         ownerDtos.add(new OwnerDto(2L,"seyda","özdemir","adsad","asdasd","asdasd",null));
 
+        ownerDto=new OwnerDto(1L,"seyda","özdemir","adsad","asdasd","asdasd",null);
+
+        objectMapper=new ObjectMapper();
         mockMvc= MockMvcBuilders
                 .standaloneSetup(ownerController)
                 .setControllerAdvice(new NoSuchElementAdvice())
@@ -129,11 +141,56 @@ class OwnerControllerTest {
     }
 
     @Test
-    void save() {
+    public void processFindFormEmptyReturnMany() throws Exception {
+        when(ownerService.findAllByLastNameLike(anyString())).thenReturn(ownerDtos);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/owners/all").param("lastName",""))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", Matchers.hasSize(2)));
     }
 
     @Test
-    void update() {
+    void saveAsStringValue() throws Exception {
+        String ownerDto = "{\"name\": \"bob\", \"lastName\" : \"Yıldırım\",\"address\" : \" asd\",\"city\" : \"Yıldırım\",\"telephone\" : \"Yıldırım\"}";
+
+        when(ownerService.save(any())).thenReturn(this.ownerDto);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/owners")
+                .content(ownerDto)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$.name", Is.is("seyda")));
+    }
+    @Test
+    void save() throws Exception {
+        when(ownerService.save(ownerDto)).thenReturn(ownerDto);
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/owners")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(ownerDto));
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$.name", Is.is("seyda")));
+    }
+
+    @Test
+    void update() throws Exception {
+        ownerDto.setName("hasan");
+        when(ownerService.update(anyLong(),any())).thenReturn(ownerDto);
+
+        MockHttpServletRequestBuilder mockRequest=MockMvcRequestBuilders.put("/owners/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(ownerDto));
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$.name", Is.is("hasan")));
     }
 
     @Test
