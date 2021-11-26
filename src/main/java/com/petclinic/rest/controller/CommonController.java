@@ -18,7 +18,7 @@ public interface CommonController <T extends BaseDto> {
     @PostMapping("")
     T save(@Valid @RequestBody T elem);
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     T update(@PathVariable Long id,@RequestBody T elem);
 
     @DeleteMapping("/{id}")
