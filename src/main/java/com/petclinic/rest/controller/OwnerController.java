@@ -54,6 +54,11 @@ public class OwnerController implements CommonController<OwnerDto>{
         ownerService.delete(elem);
     }
 
+    @GetMapping("/all")
+    public List<OwnerDto> findOwnersAllLike(@RequestParam String lastName){
+        return ownerService.findAllByLastNameLike(lastName);
+    }
+
 //    @ResponseStatus(HttpStatus.BAD_REQUEST)
 //    @ExceptionHandler(MethodArgumentNotValidException.class)
 //    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
