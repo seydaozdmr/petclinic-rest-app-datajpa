@@ -78,6 +78,7 @@ class OwnerControllerTest {
         when(ownerService.findAll()).thenReturn(ownerDtos);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/owners")
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().is(200))
 
@@ -123,6 +124,7 @@ class OwnerControllerTest {
         String ownerDto = "{\"name\": \"bob\", \"lastName\" : \"Yıldırım\",\"address\" : \"Yıldırım\",\"city\" : \"Yıldırım\",\"telephone\" : \"Yıldırım\"}";
         mockMvc.perform(MockMvcRequestBuilders.post("/owners")
                 .content(ownerDto)
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
@@ -132,6 +134,7 @@ class OwnerControllerTest {
         String ownerDto = "{\"name\": \"bob\", \"lastName\" : \"Yıldırım\",\"address\" : \"\",\"city\" : \"Yıldırım\",\"telephone\" : \"Yıldırım\"}";
         mockMvc.perform(MockMvcRequestBuilders.post("/owners")
                 .content(ownerDto)
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(jsonPath("$.status", Is.is(400)))
@@ -144,7 +147,7 @@ class OwnerControllerTest {
     public void processFindFormEmptyReturnMany() throws Exception {
         when(ownerService.findAllByLastNameLike(anyString())).thenReturn(ownerDtos);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/owners/all").param("lastName",""))
+        mockMvc.perform(MockMvcRequestBuilders.get("/owners/all").param("lastName","").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", Matchers.hasSize(2)));
     }
@@ -157,6 +160,7 @@ class OwnerControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/owners")
                 .content(ownerDto)
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
