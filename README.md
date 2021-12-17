@@ -3,7 +3,7 @@
 # Spring Boot Pet Clinic Rest Api Example
 
 Spring Boot Rest Api Example Project with Spring Boot 2.5.6
-Spring AOP and generic structure
+Spring AOP, generic structure, mapstruct and content negotiation
 
 [![CircleCI](https://circleci.com/gh/tableonthewall/petclinic-rest-app-datajpa/tree/master.svg?style=svg)](https://circleci.com/gh/tableonthewall/petclinic-rest-app-datajpa/tree/master)
 
@@ -17,6 +17,8 @@ For building and running the application belows are required;
 - Springfox Boot Starter 3.0.0 for Swagger UI Documentation
 - H2 db
 - MapStruct 1.4.2.Final
+- Junit 5 
+- Jackson Data Format (xml)
 
 ## Running the application locally
 
